@@ -50,6 +50,13 @@ class UserManager {
     return 'Usuário sem nome cadastrado';
   }
 
+  get userAdmin(): boolean {
+    if (this.user?.admin) {
+      return true;
+    }
+    return false;
+  }
+
   public async verifyLogin(): Promise<UserReturnData<Boolean>> {
     try {
       if (this.auth.currentUser) {
@@ -256,13 +263,12 @@ class UserManager {
   }
 
   public async getActualyUserData(
-    uid?: string
+    uid: string
   ): Promise<UserReturnData<boolean>> {
     return new Promise((resolve, reject) => {
       try {
-        uid && localStorage.setItem('uid', uid);
         const userDatabaseReferenceData = ref(this.db, 'users/' + uid);
-        if (userDatabaseReferenceData && uid) {
+        if (userDatabaseReferenceData) {
           onValue(userDatabaseReferenceData, (snapshot) => {
             const name = (snapshot.val() && snapshot.val().name) || 'Anonymous';
             const email =
@@ -324,6 +330,29 @@ class UserManager {
     });
   }
 
+  public async getUsersData(): Promise<UserModel[]> {
+    return new Promise<UserModel[]>((resolve, reject) => {
+      try {
+        const userDatabaseReferenceData = ref(this.db, 'users/');
+        if (userDatabaseReferenceData) {
+          onValue(userDatabaseReferenceData, (snapshot) => {
+            const userData = snapshot.val();
+            if (userData) {
+              resolve(userData);
+            } else {
+              resolve([]); // Resolve with an empty array if no data
+            }
+          });
+        } else {
+          resolve([]); // Resolve with an empty array if no data
+        }
+      } catch (error) {
+        console.log('error in getUserData of user_api:', error);
+        reject('Algum erro aconteceu ao fazer o fetch dos usuarios');
+      }
+    });
+  }
+
   public async checkLoginStatus(
     router: AppRouterInstance,
     finishLoading: () => void
@@ -331,6 +360,18 @@ class UserManager {
     const status = await this.verifyLogin();
 
     if (!status.isOK || !status.extraData) {
+      router.push('/');
+    }
+    finishLoading();
+  }
+
+  public async checkLoginStatusAdmin(
+    router: AppRouterInstance,
+    finishLoading: () => void
+  ): Promise<void> {
+    const status = await this.verifyLogin();
+
+    if (!this.user?.admin || !status.isOK || !status.extraData) {
       router.push('/');
     }
     finishLoading();

@@ -20,7 +20,6 @@ export default function RootLayout({
       <body>
         <FirebaseProvider>
           <UserProvider>
-            <Navbar />
             {children}
           </UserProvider>
         </FirebaseProvider>
