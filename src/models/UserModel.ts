@@ -4,6 +4,7 @@ interface UserModelData {
   email: string;
   location: string;
   admin: boolean;
+  cellphone: string;
 }
 
 export default class UserModel {
@@ -12,6 +13,7 @@ export default class UserModel {
   email: string;
   location: string;
   admin: boolean;
+  cellphone: string;
 
   constructor(data: UserModelData) {
     this.uid = data.uid;
@@ -19,6 +21,7 @@ export default class UserModel {
     this.email = data.email;
     this.location = data.location;
     this.admin = data.admin;
+    this.cellphone = data.cellphone;
   }
 
   // fromJson method
@@ -29,6 +32,7 @@ export default class UserModel {
       email: json.email,
       location: json.location,
       admin: json.admin,
+      cellphone: json.cellphone,
     };
 
     return new UserModel(data);
@@ -41,6 +45,7 @@ export default class UserModel {
       email: this.email,
       location: this.location,
       admin: this.admin,
+      cellphone: this.cellphone,
     };
   }
 }
@@ -50,4 +55,5 @@ interface UserJsonData {
   email: string;
   location: string;
   admin: boolean;
+  cellphone: string;
 }

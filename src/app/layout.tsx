@@ -1,8 +1,11 @@
 import { FirebaseProvider } from '@/shared/context/FirebaseContext'
 import type { Metadata } from 'next'
+
 import './globals.css'
-import Navbar from '@/components/Navbar/Navbar'
+
 import { UserProvider } from '@/shared/context/UserContext'
+import { themeOptions } from '@/theme/theme'
+import { ThemeProvider } from '@mui/material'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -18,11 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <FirebaseProvider>
-          <UserProvider>
-            {children}
-          </UserProvider>
-        </FirebaseProvider>
+        <ThemeProvider theme={themeOptions}>
+          <FirebaseProvider>
+            <UserProvider>
+              {children}
+            </UserProvider>
+          </FirebaseProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

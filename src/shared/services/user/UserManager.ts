@@ -136,15 +136,15 @@ class UserManager {
   public async registerNewAccount(
     name: string,
     email: string,
-    password: string,
-    location: string
+    location: string,
+    cellphone: string
   ): Promise<UserReturnData<Boolean>> {
     try {
       await this.auth.signOut();
       const credential: UserCredential = await createUserWithEmailAndPassword(
         this.auth,
         email,
-        password
+        '123123'
       );
       const newUser = new UserModel({
         email: credential.user.email!,
@@ -152,6 +152,7 @@ class UserManager {
         name: name,
         location: location,
         admin: false,
+        cellphone: cellphone,
       });
       const regRes = await this.registerUserInCollection(newUser, newUser.uid);
       const userData: UserReturnData<boolean> = await this.getActualyUserData(
@@ -193,7 +194,8 @@ class UserManager {
   }
 
   public async saveAccountInCollection(
-    location: string
+    location: string,
+    cellphone: string
   ): Promise<UserReturnData<Boolean>> {
     try {
       if (!this.auth.currentUser) {
@@ -211,6 +213,7 @@ class UserManager {
         email: user.email!,
         location: location,
         admin: false,
+        cellphone: cellphone,
       });
 
       const regRes = await this.registerUserInCollection(this.user, user.uid);
@@ -276,6 +279,8 @@ class UserManager {
             const location =
               (snapshot.val() && snapshot.val().location) || 'Anonymous';
             const admin = (snapshot.val() && snapshot.val().admin) || false;
+            const cellphone =
+              (snapshot.val() && snapshot.val().cellphone) || 'Anonymous';
 
             if (name && email) {
               this.user = new UserModel({
@@ -284,6 +289,7 @@ class UserManager {
                 email: email,
                 location: location,
                 admin: admin,
+                cellphone: cellphone,
               });
 
               resolve(
