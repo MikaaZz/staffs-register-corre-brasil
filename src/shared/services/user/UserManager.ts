@@ -50,6 +50,13 @@ class UserManager {
     return 'Usuário sem nome cadastrado';
   }
 
+  get userAdmin(): boolean {
+    if (this.user?.admin) {
+      return true;
+    }
+    return false;
+  }
+
   public async verifyLogin(): Promise<UserReturnData<Boolean>> {
     try {
       if (this.auth.currentUser) {
@@ -129,15 +136,15 @@ class UserManager {
   public async registerNewAccount(
     name: string,
     email: string,
-    password: string,
-    location: string
+    location: string,
+    cellphone: string
   ): Promise<UserReturnData<Boolean>> {
     try {
       await this.auth.signOut();
       const credential: UserCredential = await createUserWithEmailAndPassword(
         this.auth,
         email,
-        password
+        '123123'
       );
       const newUser = new UserModel({
         email: credential.user.email!,
@@ -145,6 +152,7 @@ class UserManager {
         name: name,
         location: location,
         admin: false,
+        cellphone: cellphone,
       });
       const regRes = await this.registerUserInCollection(newUser, newUser.uid);
       const userData: UserReturnData<boolean> = await this.getActualyUserData(
@@ -186,7 +194,8 @@ class UserManager {
   }
 
   public async saveAccountInCollection(
-    location: string
+    location: string,
+    cellphone: string
   ): Promise<UserReturnData<Boolean>> {
     try {
       if (!this.auth.currentUser) {
@@ -204,6 +213,7 @@ class UserManager {
         email: user.email!,
         location: location,
         admin: false,
+        cellphone: cellphone,
       });
 
       const regRes = await this.registerUserInCollection(this.user, user.uid);
@@ -256,13 +266,12 @@ class UserManager {
   }
 
   public async getActualyUserData(
-    uid?: string
+    uid: string
   ): Promise<UserReturnData<boolean>> {
     return new Promise((resolve, reject) => {
       try {
-        uid && localStorage.setItem('uid', uid);
         const userDatabaseReferenceData = ref(this.db, 'users/' + uid);
-        if (userDatabaseReferenceData && uid) {
+        if (userDatabaseReferenceData) {
           onValue(userDatabaseReferenceData, (snapshot) => {
             const name = (snapshot.val() && snapshot.val().name) || 'Anonymous';
             const email =
@@ -270,6 +279,8 @@ class UserManager {
             const location =
               (snapshot.val() && snapshot.val().location) || 'Anonymous';
             const admin = (snapshot.val() && snapshot.val().admin) || false;
+            const cellphone =
+              (snapshot.val() && snapshot.val().cellphone) || 'Anonymous';
 
             if (name && email) {
               this.user = new UserModel({
@@ -278,6 +289,7 @@ class UserManager {
                 email: email,
                 location: location,
                 admin: admin,
+                cellphone: cellphone,
               });
 
               resolve(
@@ -324,6 +336,29 @@ class UserManager {
     });
   }
 
+  public async getUsersData(): Promise<UserModel[]> {
+    return new Promise<UserModel[]>((resolve, reject) => {
+      try {
+        const userDatabaseReferenceData = ref(this.db, 'users/');
+        if (userDatabaseReferenceData) {
+          onValue(userDatabaseReferenceData, (snapshot) => {
+            const userData = snapshot.val();
+            if (userData) {
+              resolve(userData);
+            } else {
+              resolve([]); // Resolve with an empty array if no data
+            }
+          });
+        } else {
+          resolve([]); // Resolve with an empty array if no data
+        }
+      } catch (error) {
+        console.log('error in getUserData of user_api:', error);
+        reject('Algum erro aconteceu ao fazer o fetch dos usuarios');
+      }
+    });
+  }
+
   public async checkLoginStatus(
     router: AppRouterInstance,
     finishLoading: () => void
@@ -331,6 +366,18 @@ class UserManager {
     const status = await this.verifyLogin();
 
     if (!status.isOK || !status.extraData) {
+      router.push('/');
+    }
+    finishLoading();
+  }
+
+  public async checkLoginStatusAdmin(
+    router: AppRouterInstance,
+    finishLoading: () => void
+  ): Promise<void> {
+    const status = await this.verifyLogin();
+
+    if (!this.user?.admin || !status.isOK || !status.extraData) {
       router.push('/');
     }
     finishLoading();

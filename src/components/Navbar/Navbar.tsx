@@ -17,7 +17,7 @@ const Navbar = () => {
   }
 
 
-  return !pathname.match('login') && (
+  return (
     <AppBar position="static">
       <Toolbar>
         <IconButton
