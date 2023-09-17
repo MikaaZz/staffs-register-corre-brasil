@@ -48,27 +48,27 @@ export default function Dashboard() {
   if (loading) return <Box>Loading</Box>;
 
   return (
-    <Grid container maxWidth={'xl'} mx={'auto'} columnGap={4}>
+    <Grid container maxWidth={'xl'} mx={'auto'} columnGap={2}>
       <Grid container item xs={3} rowGap={2}>
-        <Grid bgcolor={'#fdfdfd'} p={4} borderRadius={2} direction={'column'} rowGap={2}>
+        <Grid item container bgcolor={'background.paper'} p={4} borderRadius={2} direction={'column'} rowGap={2}>
           <Typography variant="h5" color={'GrayText'} textAlign={'left'}>
             Total de Staffs:
           </Typography>
-          <Typography variant="h2" color={'#1d1d1d'} textAlign={'left'}>
+          <Typography variant="h2" color={'textPrimary'} textAlign={'left'}>
             {users.length - 1}
           </Typography>
         </Grid>
-        <Grid container bgcolor={'#fdfdfd'} p={4} borderRadius={2} direction={'column'} rowGap={2}>
+        <Grid container bgcolor={'background.paper'} p={4} borderRadius={2} direction={'column'} rowGap={2}>
           <Typography variant="h5" color={'GrayText'} textAlign={'left'}>
             Cidades com mais Staffs:
           </Typography>
           {sortedLocations.map((location, index) => {
             return (
               <Grid key={index} container item columnGap={2} rowGap={1} alignItems={'center'}>
-                <Typography variant="body1" color={'#1d1d1d'} textAlign={'left'}>
+                <Typography variant="body1" color={'textPrimary'} textAlign={'left'}>
                   {location.city}:
                 </Typography>
-                <Typography variant="body1" color={'#1d1d1d'} textAlign={'left'} fontWeight={700}>
+                <Typography variant="body1" color={'textPrimary'} textAlign={'left'} fontWeight={700}>
                   {location.quantity}
                 </Typography>
               </Grid>
@@ -77,28 +77,50 @@ export default function Dashboard() {
 
         </Grid>
       </Grid>
-      <Grid container item xs>
+      <Grid container item xs bgcolor={'background.paper'} p={4} borderRadius={2} direction={'column'} rowGap={2}>
+        <Grid container item borderBottom={'1px solid'} borderColor={'primary.main'}>
+          <Grid item xs>
+            <Typography color={'textPrimary'} textAlign={'center'} mb={1}>
+              Staff:
+            </Typography>
+          </Grid>
+          <Grid item xs>
+            <Typography color={'textPrimary'} textAlign={'center'} mb={1}>
+              Mora em:
+            </Typography>
+          </Grid>
+          <Grid item xs>
+            <Typography color={'textPrimary'} textAlign={'center'} mb={1}>
+              E-mail:
+            </Typography>
+          </Grid>
+          <Grid item xs>
+            <Typography color={'textPrimary'} textAlign={'center'} mb={1}>
+              Whatsapp:
+            </Typography>
+          </Grid>
+        </Grid>
         {users.map((userInfo) => {
           return !userInfo.admin && (
-            <Grid container item key={userInfo.uid}>
+            <Grid container item key={userInfo.uid} borderBottom={'1px solid'} borderColor={'primary.main'}>
               <Grid item xs>
-                <Typography>
-                  Staff: {userInfo.name}
+                <Typography color={'textPrimary'} textAlign={'center'} mb={1}>
+                  {userInfo.name}
                 </Typography>
               </Grid>
               <Grid item xs>
-                <Typography>
-                  Mora em: {userInfo.location}
+                <Typography color={'textPrimary'} textAlign={'center'} mb={1}>
+                  {userInfo.location}
                 </Typography>
               </Grid>
               <Grid item xs>
-                <Typography>
-                  E-mail: {userInfo.email}
+                <Typography color={'textPrimary'} textAlign={'center'} mb={1}>
+                  {userInfo.email}
                 </Typography>
               </Grid>
               <Grid item xs>
-                <Typography>
-                  Whatsapp: {userInfo.cellphone}
+                <Typography color={'textPrimary'} textAlign={'center'} mb={1}>
+                  {userInfo.cellphone}
                 </Typography>
               </Grid>
             </Grid>
