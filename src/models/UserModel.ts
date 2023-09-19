@@ -1,5 +1,4 @@
-interface UserModelData {
-  uid: string;
+interface UserModelData {  
   name: string;
   email: string;
   location: string;
@@ -7,16 +6,14 @@ interface UserModelData {
   cellphone: string;
 }
 
-export default class UserModel {
-  uid: string;
+export default class UserModel {  
   name: string;
   email: string;
   location: string;
   admin: boolean;
   cellphone: string;
 
-  constructor(data: UserModelData) {
-    this.uid = data.uid;
+  constructor(data: UserModelData) {    
     this.name = data.name;
     this.email = data.email;
     this.location = data.location;
@@ -26,8 +23,7 @@ export default class UserModel {
 
   // fromJson method
   static fromJson(json: any): UserModel {
-    const data = {
-      uid: json.uid,
+    const data = {      
       name: json.name,
       email: json.email,
       location: json.location,
@@ -39,8 +35,7 @@ export default class UserModel {
   }
 
   toJson(): UserJsonData {
-    return {
-      uid: this.uid,
+    return {      
       name: this.name,
       email: this.email,
       location: this.location,
@@ -49,8 +44,7 @@ export default class UserModel {
     };
   }
 }
-interface UserJsonData {
-  uid: string;
+interface UserJsonData {  
   name: string;
   email: string;
   location: string;

@@ -1,43 +1,40 @@
-import { FirebaseApp, initializeApp } from 'firebase/app';
-import { Auth, getAuth } from 'firebase/auth';
-import { Database, getDatabase } from 'firebase/database';
-import { EventEmitter } from 'events';
+import UserModel from '@/models/UserModel';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, onValue, ref } from 'firebase/database';
 
-export class Firebase extends EventEmitter {
-  private static _instance: Firebase | null = null;
-  app: FirebaseApp;
-  database: Database;
-  auth: Auth;
-  userLoaded: Boolean = false;
+const firebaseConfig = {
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: 'corre-brasil.firebaseapp.com',
+  databaseURL: 'https://corre-brasil-default-rtdb.firebaseio.com',
+  projectId: 'corre-brasil',
+  storageBucket: 'corre-brasil.appspot.com',
+  messagingSenderId: '888748109483',
+  appId: '1:888748109483:web:687bb797e5f03e903311ee',
+};
 
-  constructor() {
-    super();
+const app = initializeApp(firebaseConfig);
+export const database = getDatabase(app);
 
-    const firebaseConfig = {
-      apiKey: 'AIzaSyAnWGvMwSr-kmNP7yq7SoP4EZOsS2jvjzI',
-      authDomain: 'corre-brasil.firebaseapp.com',
-      databaseURL: 'https://corre-brasil-default-rtdb.firebaseio.com',
-      projectId: 'corre-brasil',
-      storageBucket: 'corre-brasil.appspot.com',
-      messagingSenderId: '888748109483',
-      appId: '1:888748109483:web:687bb797e5f03e903311ee',
-    };
+export class Firebase {
+  constructor() {}
 
-    this.app = initializeApp(firebaseConfig);
-    this.database = getDatabase(this.app);
-    this.auth = getAuth(this.app);
-
-    this.auth.onAuthStateChanged((currentUser) => {
-      if (currentUser) {
-        this.userLoaded = true;
+  async getUsersData() {
+    const databaseReference = ref(database, 'users/');
+    console.log(databaseReference);
+    return new Promise<UserModel[]>((resolve, reject) => {
+      try {
+        onValue(databaseReference, (snapshot) => {         
+          const data = snapshot.val();
+          if (data) {
+            resolve(data);
+          } else {
+            resolve([]);
+          }
+        });
+      } catch (e) {
+        console.log('error in getUserData of user_api:', e);
+        reject('Algum erro aconteceu ao fazer o fetch dos usuarios');
       }
-      this.emit('userLoadedChanged', this.userLoaded);
     });
-  }
-  public static getInstance(): Firebase {
-    if (this._instance === null) {
-      this._instance = new Firebase();
-    }
-    return this._instance;
   }
 }
