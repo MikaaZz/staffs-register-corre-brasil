@@ -1,5 +1,3 @@
-import { UFMainButton } from "@/app/components/UFMainButton";
-import { UFTextField } from "@/app/components/UFTextField";
 import {
   Grid,
   Paper,
@@ -70,11 +68,7 @@ export default function RegisterForm(
                 xs={12}
                 justifyContent={"flex-end"}
               >
-                <UFTextField
-                  fullWidth
-                  name="name"
-                  label={"Nome:"}
-                />
+                
               </Grid>
             </Grid>
             <Grid
@@ -83,11 +77,7 @@ export default function RegisterForm(
               direction={"row"}
             >
               <Grid xs={12} item>
-                <UFTextField
-                  fullWidth
-                  name="email"
-                  label={"E-mail:"}
-                />
+                
               </Grid>
             </Grid>
             <Grid
@@ -101,12 +91,7 @@ export default function RegisterForm(
                 xs={12}
                 justifyContent={"flex-end"}
               >
-                <UFTextField
-                  fullWidth
-                  type="password"
-                  name="password"
-                  label={"Senha:"}
-                />
+                
               </Grid>
             </Grid>
             <Grid
@@ -120,11 +105,7 @@ export default function RegisterForm(
                 xs={12}
                 justifyContent={"flex-end"}
               >
-                <UFTextField
-                  fullWidth
-                  name="location"
-                  label={"Localização:"}
-                />
+                
               </Grid>
             </Grid>
             <Grid
@@ -135,18 +116,10 @@ export default function RegisterForm(
               item
             >
               <Grid xs={5} item>
-                <UFMainButton type="submit">
-                  Cadastrar
-                </UFMainButton>
+                
               </Grid>
               <Grid xs={5} item>
-                <UFMainButton
-                  warning={true}
-                  type="submit"
-                  onClick={props.changeForm}
-                >
-                  Voltar ao Login
-                </UFMainButton>
+                
               </Grid>
             </Grid>
           </Grid>
