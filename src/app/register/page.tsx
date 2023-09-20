@@ -1,41 +1,55 @@
-'use client'
+'use client';
 
-import { useUserManagement } from "@/shared/context/UserContext";
-import { Grid, Paper, Typography } from "@mui/material";
-import { Form } from "@unform/web";
-import { useRouter } from "next/navigation";
-import { UFTextField } from "../components/UFTextField";
-import { UFMainButton } from "../components/UFMainButton";
+import { useState } from 'react';
 
+import { Firebase } from '@/database/firebase';
+import { Grid, Paper, Typography, TextField, Button } from '@mui/material';
+import { Form } from '@unform/web';
+import { useRouter } from 'next/navigation';
+
+export type NewUserRegister = {
+  name: string;
+  email: string;
+  location: string;
+  cellphone: string;
+};
 
 export default function Register() {
   const router = useRouter();
-  const { userManager } = useUserManagement();
+  const userManager = new Firebase();
 
-  const handleRegister: (data: any) => void = async (data: any) => {
+  const [data, setData] = useState<NewUserRegister>({
+    name: '',
+    email: '',
+    location: '',
+    cellphone: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const key = e.currentTarget.name;
+    const newData = e.currentTarget.value;
+
+    setData((prev) => ({
+      ...prev,
+      [key]: newData,
+    }));
+  };
+
+  const handleRegister = async () => {
     if (!data.name) {
-      return alert("Informe um nome valido");
+      return alert('Informe um nome valido');
     }
-    const registerResponse = await userManager.registerNewAccount(data.name, data.email, data.location, data.cellphone);
-    if (registerResponse.isOK) {
-      router.push("/");
+    const registerResponse = await userManager.registerNewUser(data);
+    if (registerResponse.isOk) {
+      router.push('/');
     } else {
       alert(registerResponse.msg);
     }
-  }
+  };
 
   return (
-    <Grid>
-      <Grid item mb={10}>
-        <Typography
-          textAlign={"center"}
-          fontSize={30}
-          color={"text.primary"}
-        >
-          Faça Login.
-        </Typography>
-      </Grid>
-      <Grid item>
+    <Grid container alignItems={'center'} justifyContent={'center'} minHeight={'100vh'}>
+      <Grid item xs>
         <Form onSubmit={handleRegister}>
           <Grid
             maxWidth={600}
@@ -45,107 +59,76 @@ export default function Register() {
             component={Paper}
             variant="outlined"
             sx={{
-              borderRadius: "50px",
+              borderRadius: '50px',
             }}
             mx="auto"
-            width={"90%"}
+            width={'90%'}
             container
             rowSpacing={3}
-            direction={"column"}
+            direction={'column'}
           >
-            <Grid
-              container
-              item
-              xs={12}
-              mx={"auto"}
-              justifyContent={"center"}
-            >
+            <Grid container item xs={12} mx={'auto'} justifyContent={'center'}>
               <Typography
                 fontWeight={700}
                 fontSize={40}
-                color={"textSecondary"}
+                color={'textSecondary'}
               >
                 Cadastrar
               </Typography>
             </Grid>
-            <Grid
-              container
-              item
-              direction={"row"}
-            >
-              <Grid
-                container
-                item
-                xs={12}
-                justifyContent={"flex-end"}
-              >
-                <UFTextField
+            <Grid container item direction={'row'}>
+              <Grid container item xs={12} justifyContent={'flex-end'}>
+                <TextField
                   fullWidth
                   name="name"
-                  label={"Nome:"}
+                  label={'Nome:'}
+                  value={data['name']}
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>
-            <Grid
-              container
-              item
-              direction={"row"}
-            >
+            <Grid container item direction={'row'}>
               <Grid xs={12} item>
-                <UFTextField
+                <TextField
                   fullWidth
                   name="email"
-                  label={"E-mail:"}
+                  label={'E-mail:'}
+                  value={data['email']}
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>
-            <Grid
-              container
-              item
-              direction={"row"}
-            >
-              <Grid
-                container
-                item
-                xs={12}
-                justifyContent={"flex-end"}
-              >
-                <UFTextField
+            <Grid container item direction={'row'}>
+              <Grid container item xs={12} justifyContent={'flex-end'}>
+                <TextField
                   fullWidth
                   name="location"
-                  label={"Localização:"}
+                  label={'Localização:'}
+                  value={data['location']}
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>
-            <Grid
-              container
-              item
-              direction={"row"}
-            >
-              <Grid
-                container
-                item
-                xs={12}
-                justifyContent={"flex-end"}
-              >
-                <UFTextField
+            <Grid container item direction={'row'}>
+              <Grid container item xs={12} justifyContent={'flex-end'}>
+                <TextField
                   fullWidth
                   name="cellphone"
-                  label={"Whatsapp para contato:"}
+                  label={'Whatsapp para contato:'}
+                  value={data['cellphone']}
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>
             <Grid
               xs={12}
-              mx={"auto"}
-              justifyContent={"space-between"}
+              mx={'auto'}
+              justifyContent={'space-between'}
               container
               item
             >
               <Grid xs={12} item>
-                <UFMainButton type="submit">
-                  Cadastrar
-                </UFMainButton>
+                <Button type="submit">Cadastrar</Button>
               </Grid>
             </Grid>
           </Grid>

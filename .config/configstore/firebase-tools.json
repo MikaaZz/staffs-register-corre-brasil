@@ -1,0 +1,37 @@
+{
+	"motd": {
+		"cloudBuildErrorAfter": 1594252800000,
+		"cloudBuildWarnAfter": 1590019200000,
+		"defaultNode10After": 1594252800000,
+		"minVersion": "3.0.5",
+		"node8DeploysDisabledAfter": 1613390400000,
+		"node8RuntimeDisabledAfter": 1615809600000,
+		"node8WarnAfter": 1600128000000,
+		"fetched": 1695249405613
+	},
+	"usage": true,
+	"analytics-uuid": "c1050f85-5f05-4b9f-8da9-df97f9af2da9",
+	"user": {
+		"iss": "accounts.google.com",
+		"azp": "563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com",
+		"aud": "563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com",
+		"sub": "105498084023837005417",
+		"email": "mikhael928@gmail.com",
+		"email_verified": true,
+		"at_hash": "rO4bLGYDRkvK-f6PRQJ8cQ",
+		"iat": 1695249423,
+		"exp": 1695253023
+	},
+	"tokens": {
+		"expires_at": 1695253023322,
+		"access_token": "ya29.a0AfB_byCiAwvgCIx4PQNMY76uG1it-UPnuZj_R5MH41FiDBcv7uiZx09Pvqaye-OzJeICkijDlg-2qA5cAtPsaNwQEcbqohlA_d2R80hfvOl88SjcT15hVOwgxS5OxSRxAsXXv09VmkAKCWSwRg_ZhsewNe97kJk_3e0JlAzQOQaCgYKAc8SARESFQGOcNnCk8fn7_ZcDQ3DpLypQIeyjg0177",
+		"expires_in": 3599,
+		"refresh_token": "1//0fFwnpnXhyepQCgYIARAAGA8SNwF-L9IrITCxXzRjkLOvhMl3TJ_vcx1kFp5VvEl4TsITWbRalGHf2Dn7yvwI8sAOPtF82xe3WPo",
+		"scope": "https://www.googleapis.com/auth/firebase https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/userinfo.email openid https://www.googleapis.com/auth/cloudplatformprojects.readonly",
+		"token_type": "Bearer",
+		"id_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjdjMGI2OTEzZmUxMzgyMGEzMzMzOTlhY2U0MjZlNzA1MzVhOWEwYmYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNTYzNTg0MzM1ODY5LWZncmhnbWQ0N2JxbmVraWo1aThiNXByMDNobzg0OWU2LmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNTYzNTg0MzM1ODY5LWZncmhnbWQ0N2JxbmVraWo1aThiNXByMDNobzg0OWU2LmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTA1NDk4MDg0MDIzODM3MDA1NDE3IiwiZW1haWwiOiJtaWtoYWVsOTI4QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoick80YkxHWURSa3ZLLWY2UFJRSjhjUSIsImlhdCI6MTY5NTI0OTQyMywiZXhwIjoxNjk1MjUzMDIzfQ.Wekkn28LMe59FgyUN2s_nI23rBn21fGkmoEblFyokG-8eZKwRxux9gtIN2jpGfuKRNng6M8ymGFFEgvkDlHOtd7YYY5Yc7Lz3c0ixOkExyCKl6DEGnPwyDdxa6bJiI0xxGej1ut1W70zsPlnN5NVqOEFRwsVpI__abgHdjyKIcGbRO4XI3Sb2_W7h1uhRV4lAW9Y19X5cidHsG8Qtk8BV2LHsOQM_U2F_h69SQ_hPW4Cdk3B7Hplez-w4ZE1adQC3Disfn0nBu8bZiy-PS7O1SCrGmPxPpBYrJbKNbPMQZ8-tk-9-oHZZH79pf0opd1FIXx0v25XW4ahLKY9ZCmBDA"
+	},
+	"activeProjects": {
+		"C:\\Users\\mikha": "corre-brasil"
+	}
+}

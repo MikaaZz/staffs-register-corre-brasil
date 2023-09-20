@@ -2,7 +2,7 @@
 
 import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu';
-import { useUserManagement } from "@/shared/context/UserContext";
+
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -10,7 +10,7 @@ const Navbar = () => {
   const pathname = usePathname()
   const router = useRouter();
 
-  const { userManager } = useUserManagement();
+  // const { userManager } = useUserManagement();
 
   const handleClick = () => {
     router.push('/login')
@@ -32,11 +32,11 @@ const Navbar = () => {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           News
         </Typography>
-        {userManager.isLogged ? (
+        {/* {userManager.isLogged ? (
           <Typography>Bem vindo (a):{' '}{userManager.userName} </Typography>
         ) : (
           <Button onClick={handleClick} color="inherit">Login</Button>
-        )}
+        )} */}
       </Toolbar>
     </AppBar>
   )
