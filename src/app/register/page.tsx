@@ -1,139 +1,147 @@
 'use client';
 
 import { useState } from 'react';
+import {
+  Grid,
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  FormControlLabel,
+  Checkbox,
+} from '@mui/material';
 
-import { Firebase } from '@/database/firebase';
-import { Grid, Paper, Typography, TextField, Button } from '@mui/material';
-import { Form } from '@unform/web';
+import { Firebase, UserModelData } from '@/database/firebase';
 import { useRouter } from 'next/navigation';
 
-export type NewUserRegister = {
-  name: string;
-  email: string;
-  location: string;
-  cellphone: string;
-};
-
 export default function Register() {
-  const router = useRouter();
-  const userManager = new Firebase();
-
-  const [data, setData] = useState<NewUserRegister>({
-    name: '',
+  const firebase = new Firebase();
+  const route = useRouter();
+  const [data, setData] = useState<UserModelData>({
+    firstName: '',
+    lastName: '',
     email: '',
     location: '',
-    cellphone: '',
+    phoneNumber: ``,
+    allowContact: false,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const key = e.currentTarget.name;
-    const newData = e.currentTarget.value;
+  const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let value = event.target.value;
 
-    setData((prev) => ({
-      ...prev,
-      [key]: newData,
+    // Remove tudo exceto números
+    value = value.replace(/\D/g, '');
+
+    // Adicionar os símbolos (, ) e - de acordo com o tamanho
+    if (value.length > 0) {
+      value = '(' + value;
+    }
+    if (value.length > 3) {
+      value = value.slice(0, 3) + ') ' + value.slice(3);
+    }
+    if (value.length > 10) {
+      value = value.slice(0, 10) + '-' + value.slice(10, 14);
+    }
+
+    const newUserData = { ...data, phoneNumber: value };
+    setData(newUserData);
+  };
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = event.target;
+
+    const newUserData = { ...data, [name]: checked };
+    setData(newUserData);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value,
     }));
   };
 
   const handleRegister = async () => {
-    if (!data.name) {
-      return alert('Informe um nome valido');
-    }
-    const registerResponse = await userManager.registerNewUser(data);
-    if (registerResponse.isOk) {
-      router.push('/');
-    } else {
-      alert(registerResponse.msg);
-    }
+    await firebase.registerUser(data);
+    route.push('/');
   };
 
   return (
-    <Grid container alignItems={'center'} justifyContent={'center'} minHeight={'100vh'}>
-      <Grid item xs>
-        <Form onSubmit={handleRegister}>
-          <Grid
-            maxWidth={600}
-            px={6}
-            pt={0}
-            pb={5}
-            component={Paper}
-            variant="outlined"
-            sx={{
-              borderRadius: '50px',
-            }}
-            mx="auto"
-            width={'90%'}
-            container
-            rowSpacing={3}
-            direction={'column'}
-          >
-            <Grid container item xs={12} mx={'auto'} justifyContent={'center'}>
-              <Typography
-                fontWeight={700}
-                fontSize={40}
-                color={'textSecondary'}
-              >
-                Cadastrar
-              </Typography>
+    <Grid
+      alignItems={'center'}
+      container
+      component="main"
+      justifyContent={'center'}
+      sx={{ height: '100vh' }}
+    >
+      <Grid item xs={12}>
+        <Typography variant="h4">Register</Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <Paper component={`form`}>
+          <Grid container>
+            <Grid item xs={12}>
+              <TextField
+                label="First Name"
+                name="firstName"
+                value={data.firstName}
+                onChange={handleChange}
+              />
             </Grid>
-            <Grid container item direction={'row'}>
-              <Grid container item xs={12} justifyContent={'flex-end'}>
-                <TextField
-                  fullWidth
-                  name="name"
-                  label={'Nome:'}
-                  value={data['name']}
-                  onChange={handleChange}
-                />
-              </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Last Name"
+                name="lastName"
+                value={data.lastName}
+                onChange={handleChange}
+              />
             </Grid>
-            <Grid container item direction={'row'}>
-              <Grid xs={12} item>
-                <TextField
-                  fullWidth
-                  name="email"
-                  label={'E-mail:'}
-                  value={data['email']}
-                  onChange={handleChange}
-                />
-              </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Email"
+                name="email"
+                value={data.email}
+                onChange={handleChange}
+              />
             </Grid>
-            <Grid container item direction={'row'}>
-              <Grid container item xs={12} justifyContent={'flex-end'}>
-                <TextField
-                  fullWidth
-                  name="location"
-                  label={'Localização:'}
-                  value={data['location']}
-                  onChange={handleChange}
-                />
-              </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Location"
+                name="location"
+                value={data.location}
+                onChange={handleChange}
+              />
             </Grid>
-            <Grid container item direction={'row'}>
-              <Grid container item xs={12} justifyContent={'flex-end'}>
-                <TextField
-                  fullWidth
-                  name="cellphone"
-                  label={'Whatsapp para contato:'}
-                  value={data['cellphone']}
-                  onChange={handleChange}
-                />
-              </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Phone Number"
+                name="phoneNumber"
+                value={data.phoneNumber}
+                onChange={handlePhoneChange}
+              />
             </Grid>
-            <Grid
-              xs={12}
-              mx={'auto'}
-              justifyContent={'space-between'}
-              container
-              item
-            >
-              <Grid xs={12} item>
-                <Button type="submit">Cadastrar</Button>
-              </Grid>
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    id="allowContact"
+                    value="allowExtraEmails"
+                    color="primary"
+                    onChange={handleCheckboxChange}
+                  />
+                }
+                label="Allow Contact"
+                name="allowContact"
+                value={data.allowContact}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button onClick={handleRegister}>Register</Button>
             </Grid>
           </Grid>
-          <Grid item></Grid>
-        </Form>
+        </Paper>
       </Grid>
     </Grid>
   );

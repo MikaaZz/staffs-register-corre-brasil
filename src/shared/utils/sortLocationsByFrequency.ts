@@ -1,4 +1,4 @@
-import UserModel from "@/models/UserModel";
+import { UserModelData } from '@/database/firebase';
 
 export interface CityFrequency {
   city: string;
@@ -6,31 +6,41 @@ export interface CityFrequency {
 }
 
 // Helper function to count the frequency of each location
-const countLocationFrequency = (list: UserModel[]): Record<string, number> => {
-  const frequency: Record<string, number> = {};
-  for (const item of list) {
-    if (frequency[item.location]) {
-      frequency[item.location]++;
-    } else {
-      frequency[item.location] = 1;
-    }
-  }
-  return frequency;
-};
+
 
 // Main function to sort locations in descending order based on frequency
-export const sortLocationsByFrequency = (list: UserModel[]): CityFrequency[] => {
-  const frequency = countLocationFrequency(list);
+export const sortLocationsByFrequency = (
+  locations: string[]
+): CityFrequency[] => {
+  
+  const locationsFrequency: CityFrequency[] = [];
+  const sortedLocations: CityFrequency[] = [];
+  const sortedLocationsFormatted: CityFrequency[] = [];
 
-  const sortedLocations = Object.entries(frequency).sort((a, b) => {
-    return b[1] - a[1]; // sort in descending order
+  locations.forEach((location) => {
+    const locationIndex = locationsFrequency.findIndex(
+      (locationFrequency) => locationFrequency.city === location
+    );
+
+    if (locationIndex === -1) {
+      locationsFrequency.push({ city: location, quantity: 1 });
+    } else {
+      locationsFrequency[locationIndex].quantity++;
+    }
   });
 
-  const sortedLocationsFormatted: CityFrequency[] = sortedLocations.map(
-    ([city, quantity]) => {
-      return { city, quantity };
-    }
-  );
+  locationsFrequency.forEach((locationFrequency) => {
+    sortedLocations.push(locationFrequency);
+  });
+
+  sortedLocations.sort((a, b) => b.quantity - a.quantity);
+
+  sortedLocations.forEach((location) => {
+    sortedLocationsFormatted.push({
+      city: location.city,
+      quantity: location.quantity,
+    });
+  });
 
   return sortedLocationsFormatted;
 };
