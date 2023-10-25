@@ -11,17 +11,19 @@ export type NewUserRegister = {
   name: string;
   email: string;
   location: string;
+  locationToWork: string;
   cellphone: string;
 };
 
 export default function Register() {
   const router = useRouter();
-  const userManager = new Firebase();
+  const databaseManager = new Firebase();
 
   const [data, setData] = useState<NewUserRegister>({
     name: '',
     email: '',
     location: '',
+    locationToWork: '',
     cellphone: '',
   });
 
@@ -39,7 +41,7 @@ export default function Register() {
     if (!data.name) {
       return alert('Informe um nome valido');
     }
-    const registerResponse = await userManager.registerNewUser(data);
+    const registerResponse = await databaseManager.registerNewUser(data);
     if (registerResponse.isOk) {
       router.push('/');
     } else {
@@ -48,7 +50,12 @@ export default function Register() {
   };
 
   return (
-    <Grid container alignItems={'center'} justifyContent={'center'} minHeight={'100vh'}>
+    <Grid
+      container
+      alignItems={'center'}
+      justifyContent={'center'}
+      minHeight={'100vh'}
+    >
       <Grid item xs>
         <Form onSubmit={handleRegister}>
           <Grid
@@ -103,8 +110,19 @@ export default function Register() {
                 <TextField
                   fullWidth
                   name="location"
-                  label={'Localização:'}
+                  label={'Cidade em que mora:'}
                   value={data['location']}
+                  onChange={handleChange}
+                />
+              </Grid>
+            </Grid>
+            <Grid container item direction={'row'}>
+              <Grid container item xs={12} justifyContent={'flex-end'}>
+                <TextField
+                  fullWidth
+                  name="locationToWork"
+                  label={'Locais que deseja trabalhar:'}
+                  value={data['locationToWork']}
                   onChange={handleChange}
                 />
               </Grid>

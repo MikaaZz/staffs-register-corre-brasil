@@ -1,40 +1,37 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { Grid, Paper, Typography } from "@mui/material";
+import { Button, Grid, Paper, Typography } from '@mui/material';
 
-import { Form } from "@unform/web";
+import { Form } from '@unform/web';
+import { Firebase } from '@/database/firebase';
 
 export default function Login() {
   const router = useRouter();
 
-  // const { userManager } = useUserManagement();
+  const authManager = new Firebase();
 
-  const submitForm: (data: any) => void = async (data: any) => {
-    // if (!data.email) {
-    //   return alert("Informe um email valido");
-    // } else if (!data.password) {
-    //   return alert("Informe uma senha valido");
-    // }
-    // const resp = await userManager.loginForm(data.email, data.password);
-    // if (resp.isOK) {
-    //   router.push("/dashboard");
-    // } else {
-    //   alert(resp.msg);
-    // }
+  const submitForm = async () => {
+    authManager.userGoogleLogin();
   };
 
-  useEffect(() => {
-    // userManager.isLogged && router.push('/')
-  })
+  useEffect(() => {});
 
   return (
-    <Grid container item xs={12} mx={"auto"} mb={10} justifyContent={"center"} direction={"column"}>
+    <Grid
+      container
+      item
+      xs={12}
+      mx={'auto'}
+      mb={10}
+      justifyContent={'center'}
+      direction={'column'}
+    >
       <Grid>
         <Grid item mb={10}>
-          <Typography textAlign={"center"} fontSize={30} color={"text.primary"}>
+          <Typography textAlign={'center'} fontSize={30} color={'text.primary'}>
             Faça Login.
           </Typography>
         </Grid>
@@ -48,31 +45,44 @@ export default function Login() {
               component={Paper}
               variant="outlined"
               sx={{
-                borderRadius: "50px",
+                borderRadius: '50px',
               }}
               mx="auto"
-              width={"90%"}
+              width={'90%'}
               container
               rowSpacing={3}
-              direction={"column"}>
-              <Grid container item xs={12} mx={"auto"} justifyContent={"center"}>
-                <Typography fontWeight={700} fontSize={40} color={"textSecondary"}>
+              direction={'column'}
+            >
+              <Grid
+                container
+                item
+                xs={12}
+                mx={'auto'}
+                justifyContent={'center'}
+              >
+                <Typography
+                  fontWeight={700}
+                  fontSize={40}
+                  color={'textSecondary'}
+                >
                   Login
                 </Typography>
               </Grid>
-              <Grid container item direction={"row"}>
-                <Grid xs={12} item>
-                  {/* <UFTextField fullWidth name="email" label={"E-mail"} /> */}
-                </Grid>
+              <Grid container item direction={'row'}>
+                <Grid xs={12} item></Grid>
               </Grid>
-              <Grid container item direction={"row"}>
-                <Grid container item xs={12} justifyContent={"flex-end"}>
-                  {/* <UFTextField fullWidth type="password" name="password" label={"Senha"} /> */}
-                </Grid>
+              <Grid container item direction={'row'}>
+                <Grid container item xs={12} justifyContent={'flex-end'}></Grid>
               </Grid>
-              <Grid xs={12} mx={"auto"} justifyContent={"space-between"} container item>
+              <Grid
+                xs={12}
+                mx={'auto'}
+                justifyContent={'space-between'}
+                container
+                item
+              >
                 <Grid xs={12} item>
-                  {/* <UFMainButton type="submit">Login</UFMainButton> */}
+                  <Button type='submit'>Login com google</Button>
                 </Grid>
               </Grid>
             </Grid>

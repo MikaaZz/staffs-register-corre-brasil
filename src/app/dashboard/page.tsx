@@ -16,12 +16,12 @@ export default function Dashboard() {
   const [users, setUsers] = useState<UserModel[]>([]);
   const [sortedLocations, setSortedLocations] = useState<CityFrequency[]>([]);
 
-  const userManager = new Firebase();
+  const databaseManager = new Firebase();
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const userData = await userManager.getUsersData();
+        const userData = await databaseManager.getUsersData();
         const userModelData = Object.values(userData).map(UserModel.fromJson);
         setUsers(userModelData);        
         setSortedLocations(sortLocationsByFrequency(userModelData));
