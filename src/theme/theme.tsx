@@ -1,5 +1,5 @@
-"use client";
-import { createTheme } from "@mui/material";
+'use client';
+import { createTheme } from '@mui/material';
 
 export const themeOptions = createTheme({
   palette: {
@@ -16,6 +16,7 @@ export const themeOptions = createTheme({
     },
     background: {
       default: '#f6f6f6',
+      paper: '#fff',
     },
   },
   typography: {
@@ -56,6 +57,19 @@ export const themeOptions = createTheme({
     },
     button: {
       fontSize: '1.2rem',
+    },
+  },
+
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          
+        },
+      },
+      defaultProps: {
+        fullWidth: true,
+      }
     },
   },
 });

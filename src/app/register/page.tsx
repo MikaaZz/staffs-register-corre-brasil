@@ -64,35 +64,49 @@ export default function Register() {
   };
 
   const handleRegister = async () => {
-    await firebase.registerUser(data);
+    const saniteziedData = {
+      ...data,
+      phoneNumber: data.phoneNumber.replace(/\D/g, ''),
+    };
+    await firebase.registerUser(saniteziedData);
     route.push('/');
   };
 
   return (
     <Grid
       alignItems={'center'}
+      justifyContent={'center'}
+      alignContent={'center'}
       container
       component="main"
-      justifyContent={'center'}
       sx={{ height: '100vh' }}
+      rowGap={2}
     >
       <Grid item xs={12}>
-        <Typography variant="h4">Register</Typography>
+        <Typography variant="h2" textAlign={'center'} fontWeight={700}>
+          Fazer cadastro como Staff
+        </Typography>
       </Grid>
-      <Grid item xs={12}>
-        <Paper component={`form`}>
-          <Grid container>
-            <Grid item xs={12}>
+      <Grid item xs={12} md={6} lg={4} rowGap={4}>
+        <Paper component={`form`} elevation={6} sx={{ p: 4, borderRadius: 4 }}>
+          <Grid
+            container
+            alignItems={'center'}
+            justifyContent={'center'}
+            rowGap={2}
+            columnGap={2}
+          >
+            <Grid item xs={12} md>
               <TextField
-                label="First Name"
+                label="Primeiro nome"
                 name="firstName"
                 value={data.firstName}
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md>
               <TextField
-                label="Last Name"
+                label="Último nome"
                 name="lastName"
                 value={data.lastName}
                 onChange={handleChange}
@@ -100,7 +114,7 @@ export default function Register() {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Email"
+                label="E-mail"
                 name="email"
                 value={data.email}
                 onChange={handleChange}
@@ -108,7 +122,7 @@ export default function Register() {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Location"
+                label="Cidade onde mora"
                 name="location"
                 value={data.location}
                 onChange={handleChange}
@@ -116,7 +130,7 @@ export default function Register() {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Phone Number"
+                label="Telefone para contato"
                 name="phoneNumber"
                 value={data.phoneNumber}
                 onChange={handlePhoneChange}
@@ -132,13 +146,22 @@ export default function Register() {
                     onChange={handleCheckboxChange}
                   />
                 }
-                label="Allow Contact"
+                label="Aceito receber mensagens e e-mails"
                 name="allowContact"
                 value={data.allowContact}
               />
             </Grid>
             <Grid item xs={12}>
-              <Button onClick={handleRegister}>Register</Button>
+              <Button
+                variant="contained"
+                onClick={handleRegister}
+                sx={{
+                  textTransform: 'none',
+                }}
+                fullWidth
+              >
+                Cadastrar meus dados
+              </Button>
             </Grid>
           </Grid>
         </Paper>

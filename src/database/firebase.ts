@@ -6,7 +6,7 @@ export interface UserModelData {
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber: number | string;
+  phoneNumber: string;
   location: string;
   allowContact: boolean;
 }

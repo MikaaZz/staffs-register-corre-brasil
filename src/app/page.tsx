@@ -1,28 +1,34 @@
 'use client';
 
-import Footer from "@/components/Footer/footer";
-import { Functions_staffs } from "@/components/Functions_staffs/Functions_staffs";
-import Header from "@/components/Header/header";
-import { Role_staffs } from "@/components/Role_staffs/Role_staffs";
+import Footer from '@/components/Footer/footer';
+import { Functions_staffs } from '@/components/Functions_staffs/Functions_staffs';
+import Header from '@/components/Header/header';
+import { Role_staffs } from '@/components/Role_staffs/Role_staffs';
+import Link from 'next/link';
+
+const navInfos = [
+  {
+    buttonText: 'Papel',
+    buttonLink: '#roleStaffs',
+  },
+  {
+    buttonText: 'Funções',
+    buttonLink: '#functionsStaffs',
+  },
+  {
+    buttonText: 'Orientações',
+    buttonLink: '#orientationStaffs',
+  },
+  {
+    buttonText: 'Cadastro',
+    buttonLink: '/register',
+  },
+];
 
 export default function Home() {
   return (
     <>
-      <Header
-        headerContentNav={
-          <>
-            <a className="main-header__links" href="#roleStaffs">
-              Papel
-            </a>
-            <a className="main-header__links" href="#functionsStaffs">
-              Funções
-            </a>
-            <a className="main-header__links" href="#orientationStaffs">
-              Orientações
-            </a>
-          </>
-        }
-      ></Header>
+      <Header buttonData  ={navInfos} />
       <main className="main-content">
         <div className="main-content__initialInfos">
           <div className="main-content__initialInfos--titleContainer">
