@@ -3,7 +3,7 @@ import { getDatabase } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
- apiKey: "AIzaSyAnWGvMwSr-kmNP7yq7SoP4EZOsS2jvjzI",
+ apiKey: "",
 
  authDomain: "corre-brasil.firebaseapp.com",
 
